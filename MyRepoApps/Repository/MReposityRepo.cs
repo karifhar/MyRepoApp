@@ -3,12 +3,12 @@ using MyRepoApps.Repository.Interface;
 
 namespace MyRepoApps.Repository;
 
-public class MReposityRepo : IMRepository
+public class MReposityRepo(IAppDbContext _db) : IMRepository
 {
-    public Task AddAsync(MRepository entity, CancellationToken cancellationToken)
+    public async Task AddAsync(MRepository entity, CancellationToken cancellationToken)
     {
-
-        throw new NotImplementedException();
+        await _db.Repositories.AddAsync(entity, cancellationToken);
+        await _db.SaveChangesAsync(cancellationToken);
     }
 
     public void DeleteAsync(MRepository entity, CancellationToken cancellationToken)

@@ -416,3 +416,21 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Build results
+bin/
+obj/
+out/
+
+# User-specific
+.vs/
+*.user
+*.suo
+
+# Logs and temporary
+*.log
+*.tmp
+
+# Others
+*.dll
+*.pdb

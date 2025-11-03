@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace MyRepoApps.Models;
 
-public class AppDbContext : DbContext
+public class AppDbContext : DbContext, IAppDbContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -46,15 +46,15 @@ public class AppDbContext : DbContext
         }
     }
 
-    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public override int SaveChanges()
     {
         ApplyChageTrackers();
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        return base.SaveChanges();
     }
 
-    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         ApplyChageTrackers();
-        return base.SaveChanges(acceptAllChangesOnSuccess);
+        return base.SaveChangesAsync(cancellationToken);
     }
 }
