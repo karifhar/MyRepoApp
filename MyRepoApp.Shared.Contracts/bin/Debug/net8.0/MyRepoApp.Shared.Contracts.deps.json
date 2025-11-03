@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "MyRepoApp.Shared.Contracts/1.0.0": {
+        "runtime": {
+          "MyRepoApp.Shared.Contracts.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MyRepoApp.Shared.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
