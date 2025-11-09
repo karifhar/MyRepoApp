@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using MyRepoApps.Models.Abstract;
 using System;
@@ -6,20 +7,25 @@ using System.Security.Cryptography;
 
 namespace MyRepoApps.Models;
 
-public class AppDbContext : DbContext
+public interface IAppDbContext
+{
+    DbSet<MRepository> Repositories { get; set; }
+    DbSet<MUser> Users { get; set; }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    int SaveChanges();
+}
+
+public class AppDbContext : DbContext, IAppDbContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public AppDbContext(IHttpContextAccessor httpContextAccessor)
+    public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
-
     public DbSet<MRepository> Repositories { get; set; }
+    public DbSet<MUser> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,15 +52,15 @@ public class AppDbContext : DbContext
         }
     }
 
-    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         ApplyChageTrackers();
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        return base.SaveChangesAsync(cancellationToken);
     }
 
-    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    public override int SaveChanges()
     {
         ApplyChageTrackers();
-        return base.SaveChanges(acceptAllChangesOnSuccess);
+        return base.SaveChanges();
     }
 }

@@ -1,4 +1,5 @@
 
+using Microsoft.EntityFrameworkCore;
 using MyRepoApps.Models;
 using MyRepoApps.Models.Extensions;
 using MyRepoApps.Repository;
@@ -12,10 +13,9 @@ namespace MyRepoApps
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Configuration.GetConnectionString("Default");
-
             // Add services to the container.
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
             builder.Services.AddRepositoryScoped<IMRepository, MReposityRepo, MRepository>();
 
             builder.Services.AddControllers();
