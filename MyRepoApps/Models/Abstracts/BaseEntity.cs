@@ -2,25 +2,22 @@
 
 namespace MyRepoApps.Models.Abstract;
 
-public interface IHasKey
+public interface IBaseEntity
 {
-    Guid Id { get; set; }
-}
-
-public interface IModifiable
-{
+    object Id { get; }
+    DateTime CreatedAt { get; set; }
     DateTime? ModifiedAt { get; set; }
-    string? ModifiedBy { get; set; }
-}
+    public string CreatedBy { get; set; }
 
-public interface IDeletable
-{
+    string? ModifiedBy { get; set; }
     bool IsDeleted { get; set; }
 }
-public abstract class BaseEntity : IHasKey, IModifiable, IDeletable
+
+public abstract class BaseEntity<TKey> : IBaseEntity
 {
     [Key]
-    public Guid Id { get; set; }
+    public TKey Id { get; set; }
+    object IBaseEntity.Id => this.Id!;
     public DateTime CreatedAt { get; set; } 
     [MaxLength(255)]
     public string CreatedBy { get; set; }

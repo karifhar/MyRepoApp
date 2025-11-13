@@ -2,7 +2,7 @@
 
 namespace MyRepoApps.Repository.Interface;
 
-public interface IMRepository : IBaseRepository<MRepository>
+public interface IMRepository : IBaseRepository<MRepository, Guid>
 {
     
 }

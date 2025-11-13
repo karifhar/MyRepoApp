@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using MyRepoApps.Models.Abstract;
+using MyRepoApps.Models.Extensions;
 using System;
 using System.Security.Cryptography;
 
@@ -29,13 +30,14 @@ public class AppDbContext : DbContext, IAppDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyAllConfigurations();
         base.OnModelCreating(modelBuilder);
     }
 
     public void ApplyChageTrackers()
     {
         var username = _httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "System";
-        foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+        foreach (var entry in ChangeTracker.Entries<IBaseEntity>())
         {
             // You can add custom logic here before saving changes
             switch (entry.State)
@@ -52,15 +54,15 @@ public class AppDbContext : DbContext, IAppDbContext
         }
     }
 
-    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         ApplyChageTrackers();
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        return base.SaveChangesAsync(cancellationToken);
     }
 
-    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    public override int SaveChanges()
     {
         ApplyChageTrackers();
-        return base.SaveChanges(acceptAllChangesOnSuccess);
+        return base.SaveChanges();
     }
 }

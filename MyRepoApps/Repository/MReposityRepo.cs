@@ -16,7 +16,7 @@ public class MReposityRepo(IAppDbContext _db) : IMRepository
 
     public async Task DeleteAsync(Guid entityId, CancellationToken cancellationToken)
     {
-        var data =  await _db.Users.FirstOrDefaultAsync(x => x.Id == entityId, cancellationToken);
+        var data =  await _db.Repositories.FirstOrDefaultAsync(x => x.Id == entityId, cancellationToken);
 
         if (data == null)
         {

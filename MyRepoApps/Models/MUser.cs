@@ -2,7 +2,7 @@
 
 namespace MyRepoApps.Models;
 
-public class MUser : BaseEntity
+public class MUser : BaseEntity<int>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -10,5 +10,7 @@ public class MUser : BaseEntity
     public string Username { get; set; }
     public string PasswordHash { get; set; }
     public bool LookedOut { get; set; }
+
+    public MRepository Repository { get; set; }
 
 }
