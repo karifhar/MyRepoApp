@@ -11,18 +11,13 @@ public static class ModelBuiderExtension
 {
     public static void ApplyAllConfigurations(this ModelBuilder modelBuilder)
     {
-        var baseEntityType = typeof(BaseEntity<>);
+        var baseEntityType = typeof(BaseEntity);
         foreach (var entityClr in modelBuilder.Model.GetEntityTypes())
         {
-            if (IsSubClassOfRawGeneric(typeof(BaseEntity<>), entityClr.ClrType))
+            if (IsSubClassOfRawGeneric(typeof(BaseEntity), entityClr.ClrType))
             {
                 var idProperty = entityClr.FindProperty(nameof(IBaseEntity.Id));
-                if (idProperty != null && idProperty.ClrType == typeof(Guid))
-                {
-                    idProperty.SetDefaultValueSql("NEWSEQUENTIALID()");
-                    idProperty.ValueGenerated = ValueGenerated.OnAdd;
-                }
-                else if (idProperty != null && idProperty.ClrType == typeof(int))
+                if (idProperty != null && idProperty.ClrType == typeof(int))
                 {
                     idProperty.ValueGenerated = ValueGenerated.OnAdd;
                     modelBuilder.Entity(entityClr.ClrType)
@@ -43,9 +38,11 @@ public static class ModelBuiderExtension
                 }
             }
 
-            foreach (var fk in entityClr.GetForeignKeys())
+            var publicIdProperty = entityClr.FindProperty("PublicId");
+            if (publicIdProperty != null && publicIdProperty.ClrType == typeof(Guid))
             {
-                fk.DeleteBehavior = DeleteBehavior.NoAction;
+                publicIdProperty.SetDefaultValueSql("NEWID()");
+                publicIdProperty.ValueGenerated = ValueGenerated.OnAdd;
             }
         }
     }

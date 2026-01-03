@@ -17,7 +17,7 @@ namespace MyRepoApps
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
             builder.Services.AddScoped<IAppDbContext>(opt => opt.GetRequiredService<AppDbContext>());
-            builder.Services.AddRepositoryScoped<IMRepository, MReposityRepo, MRepository, Guid>();
+            builder.Services.AddScoped<IMRepository, MReposityRepo>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

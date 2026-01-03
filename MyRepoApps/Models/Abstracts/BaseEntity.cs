@@ -4,20 +4,18 @@ namespace MyRepoApps.Models.Abstract;
 
 public interface IBaseEntity
 {
-    object Id { get; }
+    int Id { get; set; }
     DateTime CreatedAt { get; set; }
     DateTime? ModifiedAt { get; set; }
-    public string CreatedBy { get; set; }
-
+    string CreatedBy { get; set; }
     string? ModifiedBy { get; set; }
     bool IsDeleted { get; set; }
 }
 
-public abstract class BaseEntity<TKey> : IBaseEntity
+public abstract class BaseEntity : IBaseEntity
 {
     [Key]
-    public TKey Id { get; set; }
-    object IBaseEntity.Id => this.Id!;
+    public int Id { get; set; }
     public DateTime CreatedAt { get; set; } 
     [MaxLength(255)]
     public string CreatedBy { get; set; }

@@ -30,11 +30,23 @@ public class AppDbContext : DbContext, IAppDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyAllConfigurations();
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<MRepository>(entity =>
+        {
+            entity.HasOne(r => r.User)
+                  .WithOne(u => u.Repository)
+                  .HasForeignKey<MRepository>(r => r.UserId)   
+                  .IsRequired();                                
+
+            entity.HasIndex(r => r.UserId)
+                  .IsUnique();                                 
+        });
+
+        modelBuilder.ApplyAllConfigurations();
     }
 
-    public void ApplyChageTrackers()
+    public void ApplyChangeTrackers()
     {
         var username = _httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "System";
         foreach (var entry in ChangeTracker.Entries<IBaseEntity>())
@@ -56,13 +68,13 @@ public class AppDbContext : DbContext, IAppDbContext
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        ApplyChageTrackers();
+        ApplyChangeTrackers();
         return base.SaveChangesAsync(cancellationToken);
     }
 
     public override int SaveChanges()
     {
-        ApplyChageTrackers();
+        ApplyChangeTrackers();
         return base.SaveChanges();
     }
 }

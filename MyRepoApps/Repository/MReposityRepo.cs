@@ -16,7 +16,7 @@ public class MReposityRepo(IAppDbContext _db) : IMRepository
 
     public async Task DeleteAsync(Guid entityId, CancellationToken cancellationToken)
     {
-        var data =  await _db.Repositories.FirstOrDefaultAsync(x => x.Id == entityId, cancellationToken);
+        var data =  await _db.Repositories.FirstOrDefaultAsync(x => x.PublicId == entityId, cancellationToken);
 
         if (data == null)
         {
@@ -29,7 +29,7 @@ public class MReposityRepo(IAppDbContext _db) : IMRepository
 
     public async Task<MRepository?> GetByIdAsync(Guid entityId, CancellationToken cancellationToken)
     {
-        return await _db.Repositories.FirstOrDefaultAsync(x => x.Id == entityId);
+        return await _db.Repositories.FirstOrDefaultAsync(x => x.PublicId == entityId);
     }
 
     public Task UpdateAsync(MRepository entity, CancellationToken cancellationToken)
