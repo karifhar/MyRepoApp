@@ -5,34 +5,9 @@ using MyRepoApps.Repository.Interface;
 namespace MyRepoApps.Repository;
 
 
-public class MReposityRepo(IAppDbContext _db) : IMRepository
+public class MReposityRepo(IAppDbContext _db) : BaseRepository<MRepository>, IMRepository
 {
-
-    public async Task<int> AddAsync(MRepository entity, CancellationToken cancellationToken)
-    {
-        await _db.Repositories.AddAsync(entity);
-        return 1;
-    }
-
-    public async Task DeleteAsync(Guid entityId, CancellationToken cancellationToken)
-    {
-        var data =  await _db.Repositories.FirstOrDefaultAsync(x => x.PublicId == entityId, cancellationToken);
-
-        if (data == null)
-        {
-            throw new Exception("Data is not found");
-        }
-
-        data.IsDeleted = true;
-        await _db.SaveChangesAsync(cancellationToken);
-    }
-
-    public async Task<MRepository?> GetByIdAsync(Guid entityId, CancellationToken cancellationToken)
-    {
-        return await _db.Repositories.FirstOrDefaultAsync(x => x.PublicId == entityId);
-    }
-
-    public Task UpdateAsync(MRepository entity, CancellationToken cancellationToken)
+    public Task<MRepository?> GetRepositoryWithDetailAsync(int id, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

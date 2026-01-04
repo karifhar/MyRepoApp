@@ -8,15 +8,8 @@ using System.Security.Cryptography;
 
 namespace MyRepoApps.Models;
 
-public interface IAppDbContext
-{
-    DbSet<MRepository> Repositories { get; set; }
-    DbSet<MUser> Users { get; set; }
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-    int SaveChanges();
-}
 
-public class AppDbContext : DbContext, IAppDbContext
+public class AppDbContext : DbContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

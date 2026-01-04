@@ -1,4 +1,5 @@
-﻿using MyRepoApps.Repository.Interface;
+﻿using MyRepoApps.Models.Abstract;
+using MyRepoApps.Repository.Interface;
 
 namespace MyRepoApps.Models.Extensions;
 
@@ -8,7 +9,7 @@ public static class ServiceCollectionExtensions
             this IServiceCollection services)
             where TRepoInterface : class, IBaseRepository<TEntity>
             where TRepoImplementation : class, TRepoInterface
-            where TEntity : class
+            where TEntity : class, IBaseEntity
     {
         // Register implementasi utama
         services.AddScoped<TRepoInterface, TRepoImplementation>();

@@ -1,11 +1,12 @@
 ﻿using MyRepoApps.Models;
+using MyRepoApps.Models.Abstract;
 
 namespace MyRepoApps.Repository.Interface;
 
-public interface IBaseRepository<T> where T : class
+public interface IBaseRepository<TEntity> where TEntity : class, IBaseEntity, new()
 {
-    Task<T?> GetByIdAsync(Guid PublicId, CancellationToken cancellationToken);
-    Task<int> AddAsync(T entity, CancellationToken cancellationToken);
-    Task UpdateAsync(T entity, CancellationToken cancellationToken);
-    Task DeleteAsync(Guid entityId, CancellationToken cancellationToken);
+    Task<TEntity?> GetByIdAsync(Guid PublicId, CancellationToken cancellationToken);
+    Task<int> AddAsync(TEntity entity, CancellationToken cancellationToken);
+    Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
+    Task DeleteAsync(TEntity entityId, CancellationToken cancellationToken);
 }

@@ -5,7 +5,7 @@ namespace MyRepoApps.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RepositoyController() : ControllerBase
+    public class RepositoryController() : ControllerBase
     {
         
     }
