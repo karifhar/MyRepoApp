@@ -16,7 +16,6 @@ namespace MyRepoApps
             // Add services to the container.
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-            builder.Services.AddScoped<IAppDbContext>(opt => opt.GetRequiredService<AppDbContext>());
             builder.Services.AddScoped<IMRepository, MReposityRepo>();
 
             builder.Services.AddControllers();
